@@ -22,12 +22,10 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
+    - name: test1
+      run: |
+        echo "coucou ${{ github.head_ref }}"
     - name: test
       if: github.ref == contains(github.head_ref, 'release/')
-      flavor: ${{ github.event.inputs.flavor }}
-      lane: release
-      set_build_number: ${{ fromJSON(true) }}
-      fetch_depth: 0
-      ruby_version: ${{ github.event.inputs.ruby_version }}
       run: |
         echo "coucou"
