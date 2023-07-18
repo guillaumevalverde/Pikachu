@@ -1,0 +1,32 @@
+name: On demand release
+
+on:
+  workflow_dispatch:
+    inputs:
+      flavor:
+        required: true
+        type: choice
+        description: "release type"
+        options:
+          - alpha
+          - beta
+          - rc
+          - final
+      ruby_version:
+        required: false
+        type: string
+        description: The Ruby version to use
+        default: '2.7.7'
+
+jobs:
+  pr:
+    name: Manual run using Fastlane workflow
+    uses: RISPixsa/workflows-mobile-scripts/.github/workflows/fastlane_android.yaml@feature/FLMP-49925-helloworld-firebase-current
+    secrets: inherit
+    with:
+      if: github.ref == contains(github.head_ref, 'release/')
+      flavor: ${{ github.event.inputs.flavor }}
+      lane: release
+      set_build_number: ${{ fromJSON(true) }}
+      fetch_depth: 0
+      ruby_version: ${{ github.event.inputs.ruby_version }}

@@ -1,0 +1,23 @@
+name: On demand snapshot
+
+on:
+  workflow_dispatch:
+    inputs:
+      ruby_version:
+        required: false
+        type: string
+        description: The Ruby version to use
+        default: '2.7.7'
+
+jobs:
+  pr:
+    if: github.ref == contains(github.head_ref, 'feature/')
+    name: Manual run using Fastlane workflow
+    uses: RISPixsa/workflows-mobile-scripts/.github/workflows/fastlane_android.yaml@feature/FLMP-49925-helloworld-firebase-current
+    secrets: inherit
+    with:
+      flavor: snapshot
+      lane: release
+      set_build_number: false
+      fetch_depth: 0
+      ruby_version: ${{ github.event.inputs.ruby_version }}
