@@ -21,7 +21,6 @@ on:
 jobs:
   pr:
     name: Manual run using Fastlane workflow
-    uses: RISPixsa/workflows-mobile-scripts/.github/workflows/fastlane_android.yaml@feature/FLMP-49925-helloworld-firebase-current
     secrets: inherit
     with:
       if: github.ref == contains(github.head_ref, 'release/')
@@ -30,3 +29,4 @@ jobs:
       set_build_number: ${{ fromJSON(true) }}
       fetch_depth: 0
       ruby_version: ${{ github.event.inputs.ruby_version }}
+      run: echo "coucou"
